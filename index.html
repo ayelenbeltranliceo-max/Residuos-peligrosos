@@ -53,58 +53,174 @@
     .incorrecto {
       background-color: #ffcdd2;
       color: #c62828;
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cuestionario Residuos Peligrosos</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #eef5f0;
-      color: #333;
-      padding: 20px;
     }
-    h1 {
+    #result {
+      margin-top: 30px;
       text-align: center;
-      color: #2e8b57;
-    }
-    .question {
-      margin-bottom: 20px;
+      font-size: 20px;
+      font-weight: bold;
       padding: 15px;
-      background-color: #fff;
       border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     }
-    .question p {
-      margin: 0 0 10px;
-      font-weight: bold;
+  </style>
+</head>
+<body>
+  <h1>Cuestionario: Residuos Peligrosos</h1>
+  <form id="quizForm">
+    
+    <div class="question">
+      <p>1. ¿Cuál de los siguientes NO se considera un residuo peligroso?</p>
+      <label><input type="radio" name="q1" value="d"> Residuos de papel limpio</label><br>
+      <label><input type="radio" name="q1" value="a"> Baterías de automóvil</label><br>
+      <label><input type="radio" name="q1" value="b"> Aceite usado de cocina</label><br>
+      <label><input type="radio" name="q1" value="c"> Pilas alcalinas</label>
+      <div class="feedback" id="fb1"></div>
+    </div>
+
+    <div class="question">
+      <p>2. Los residuos peligrosos pueden causar daños a la salud humana y al medio ambiente si no se gestionan adecuadamente.</p>
+      <label><input type="radio" name="q2" value="true"> Verdadero</label><br>
+      <label><input type="radio" name="q2" value="false"> Falso</label>
+      <div class="feedback" id="fb2"></div>
+    </div>
+
+    <div class="question">
+      <p>3. ¿Cuál es la característica que define a un residuo como peligroso?</p>
+      <label><input type="radio" name="q3" value="b"> Es inflamable, corrosivo, reactivo o tóxico</label><br>
+      <label><input type="radio" name="q3" value="a"> Es biodegradable</label><br>
+      <label><input type="radio" name="q3" value="c"> Se puede reciclar fácilmente</label><br>
+      <label><input type="radio" name="q3" value="d"> Es orgánico y compostable</label>
+      <div class="feedback" id="fb3"></div>
+    </div>
+
+    <div class="question">
+      <p>4. Menciona dos ejemplos de residuos peligrosos generados en el hogar:</p>
+      <input type="text" name="q4" placeholder="Escribe tu respuesta">
+      <div class="feedback" id="fb4"></div>
+    </div>
+
+    <div class="question">
+      <p>5. Los residuos electrónicos como computadoras y celulares se consideran residuos peligrosos.</p>
+      <label><input type="radio" name="q5" value="true"> Verdadero</label><br>
+      <label><input type="radio" name="q5" value="false"> Falso</label>
+      <div class="feedback" id="fb5"></div>
+    </div>
+
+    <div class="question">
+      <p>6. ¿Cuál de los siguientes métodos es adecuado para la disposición de residuos peligrosos?</p>
+      <label><input type="radio" name="q6" value="b"> Almacenarlos en contenedores adecuados y entregarlos a un gestor autorizado</label><br>
+      <label><input type="radio" name="q6" value="a"> Mezclarlos con residuos domésticos</label><br>
+      <label><input type="radio" name="q6" value="c"> Quemarlos en casa</label><br>
+      <label><input type="radio" name="q6" value="d"> Tirarlos en ríos o áreas verdes</label>
+      <div class="feedback" id="fb6"></div>
+    </div>
+
+    <div class="question">
+      <p>7. Explica por qué es importante separar los residuos peligrosos de los residuos comunes:</p>
+      <input type="text" name="q7" placeholder="Escribe tu respuesta">
+      <div class="feedback" id="fb7"></div>
+    </div>
+
+    <div class="question">
+      <p>8. Los residuos peligrosos generados en hospitales incluyen:</p>
+      <label><input type="checkbox" name="q8" value="a"> Gasas y vendajes contaminados</label><br>
+      <label><input type="checkbox" name="q8" value="b"> Agujas y jeringas usadas</label><br>
+      <label><input type="checkbox" name="q8" value="c"> Medicamentos caducados</label><br>
+      <label><input type="checkbox" name="q8" value="d"> Todos los anteriores</label>
+      <div class="feedback" id="fb8"></div>
+    </div>
+
+    <div class="question">
+      <p>9. La manipulación de residuos peligrosos requiere el uso de equipo de protección personal.</p>
+      <label><input type="radio" name="q9" value="true"> Verdadero</label><br>
+      <label><input type="radio" name="q9" value="false"> Falso</label>
+      <div class="feedback" id="fb9"></div>
+    </div>
+
+    <div class="question">
+      <p>10. Sugiere una acción que las personas pueden realizar para reducir la generación de residuos peligrosos en casa o en el trabajo:</p>
+      <input type="text" name="q10" placeholder="Escribe tu respuesta">
+      <div class="feedback" id="fb10"></div>
+    </div>
+
+    <button type="button" onclick="calcularResultado()">Enviar</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script>
+    function calcularResultado() {
+      let score = 0;
+      const respuestas = {
+        q1: "d",
+        q2: "true",
+        q3: "b",
+        q5: "true",
+        q6: "b",
+        q9: "true",
+        q8: "d"
+      };
+
+      // Preguntas cerradas
+      for (let key in respuestas) {
+        const q = document.querySelector(`input[name="${key}"]:checked`);
+        const fb = document.getElementById("fb" + key.slice(1));
+        if (q && q.value === respuestas[key]) {
+          fb.textContent = "✔ Correcto";
+          fb.className = "feedback correcto";
+          score++;
+        } else {
+          fb.textContent = "✘ Incorrecto";
+          fb.className = "feedback incorrecto";
+        }
+      }
+
+      // Preguntas abiertas con palabras clave
+      const q4 = document.querySelector('input[name="q4"]').value.toLowerCase();
+      const q7 = document.querySelector('input[name="q7"]').value.toLowerCase();
+      const q10 = document.querySelector('input[name="q10"]').value.toLowerCase();
+
+      const fb4 = document.getElementById("fb4");
+      const fb7 = document.getElementById("fb7");
+      const fb10 = document.getElementById("fb10");
+
+      if (q4.includes("pila") || q4.includes("batería") || q4.includes("medicamento") || q4.includes("aceite")) {
+        fb4.textContent = "✔ Correcto (ejemplo válido)";
+        fb4.className = "feedback correcto";
+        score++;
+      } else {
+        fb4.textContent = "✘ Revisa ejemplos como pilas, aceites, medicamentos caducados";
+        fb4.className = "feedback incorrecto";
+      }
+
+      if (q7.includes("salud") || q7.includes("ambiente") || q7.includes("contaminación") || q7.includes("riesgo")) {
+        fb7.textContent = "✔ Correcto";
+        fb7.className = "feedback correcto";
+        score++;
+      } else {
+        fb7.textContent = "✘ Menciona relación con salud o ambiente";
+        fb7.className = "feedback incorrecto";
+      }
+
+      if (q10.includes("reducir") || q10.includes("reciclar") || q10.includes("separar") || q10.includes("entregar")) {
+        fb10.textContent = "✔ Correcto";
+        fb10.className = "feedback correcto";
+        score++;
+      } else {
+        fb10.textContent = "✘ Ejemplos: separar pilas, entregar a gestores, reducir químicos";
+        fb10.className = "feedback incorrecto";
+      }
+
+      // Resultado final
+      let mensaje = `Tu puntaje es: ${score}/10. `;
+      if (score === 10) mensaje += "🌟 ¡Excelente dominio del tema!";
+      else if (score >= 7) mensaje += "👍 Muy bien, tienes buen conocimiento.";
+      else if (score >= 5) mensaje += "⚠️ Aceptable, pero puedes mejorar.";
+      else mensaje += "❌ Necesitas reforzar mucho más el tema.";
+
+      document.getElementById("result").textContent = mensaje;
+      document.getElementById("result").style.backgroundColor = score >= 7 ? "#c8e6c9" : "#ffcdd2";
     }
-    button {
-      background-color: #2e8b57;
-      color: #fff;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      display: block;
-      margin: 0 auto;
-    }
-    button:hover {
-      background-color: #276c48;
-    }
-    .feedback {
-      margin-top: 10px;
-      font-weight: bold;
-      padding: 5px;
-      border-radius: 5px;
-    }
-    .correcto {
-      background-color: #c8e6c9;
-      color: #2e7d32;
-    }
-    .incorrecto {
-      background-color: #ffcdd2;
-      color: #c62828;
+  </script>
+</body>
+</html>
