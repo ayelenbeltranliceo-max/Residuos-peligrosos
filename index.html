@@ -1,226 +1,241 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cuestionario Residuos Peligrosos</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #eef5f0;
-      color: #333;
-      padding: 20px;
+import { useState } from 'react';
+import { CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+
+export default function QuizResiduosPeligrosos() {
+  const [answers, setAnswers] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+  const [score, setScore] = useState(0);
+
+  const questions = [
+    {
+      id: 1,
+      type: 'multiple',
+      question: '¿Cuál de los siguientes NO se considera un residuo peligroso?',
+      options: [
+        'Baterías de automóvil',
+        'Aceite usado de cocina',
+        'Pilas alcalinas',
+        'Residuos de papel limpio'
+      ],
+      correct: 3
+    },
+    {
+      id: 2,
+      type: 'boolean',
+      question: 'Los residuos peligrosos pueden causar daños a la salud humana y al medio ambiente si no se gestionan adecuadamente.',
+      options: ['Verdadero', 'Falso'],
+      correct: 0
+    },
+    {
+      id: 3,
+      type: 'multiple',
+      question: '¿Cuál es la característica que define a un residuo como peligroso?',
+      options: [
+        'Es biodegradable',
+        'Es inflamable, corrosivo, reactivo o tóxico',
+        'Se puede reciclar fácilmente',
+        'Es orgánico y compostable'
+      ],
+      correct: 1
+    },
+    {
+      id: 5,
+      type: 'boolean',
+      question: 'Los residuos electrónicos como computadoras y celulares se consideran residuos peligrosos.',
+      options: ['Verdadero', 'Falso'],
+      correct: 0
+    },
+    {
+      id: 6,
+      type: 'multiple',
+      question: '¿Cuál de los siguientes métodos es adecuado para la disposición de residuos peligrosos?',
+      options: [
+        'Mezclarlos con residuos domésticos',
+        'Almacenarlos en contenedores adecuados y entregarlos a un gestor autorizado',
+        'Quemarlos en casa',
+        'Tirarlos en ríos o áreas verdes'
+      ],
+      correct: 1
+    },
+    {
+      id: 8,
+      type: 'multiple',
+      question: 'Los residuos peligrosos generados en hospitales incluyen:',
+      options: [
+        'Gasas y vendajes contaminados',
+        'Agujas y jeringas usadas',
+        'Medicamentos caducados',
+        'Todos los anteriores'
+      ],
+      correct: 3
+    },
+    {
+      id: 9,
+      type: 'boolean',
+      question: 'La manipulación de residuos peligrosos requiere el uso de equipo de protección personal.',
+      options: ['Verdadero', 'Falso'],
+      correct: 0
     }
-    h1 {
-      text-align: center;
-      color: #2e8b57;
+  ];
+
+  const handleAnswer = (questionId, answerIndex) => {
+    if (!submitted) {
+      setAnswers({ ...answers, [questionId]: answerIndex });
     }
-    .question {
-      margin-bottom: 20px;
-      padding: 15px;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    }
-    .question p {
-      margin: 0 0 10px;
-      font-weight: bold;
-    }
-    button {
-      background-color: #2e8b57;
-      color: #fff;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      display: block;
-      margin: 0 auto;
-    }
-    button:hover {
-      background-color: #276c48;
-    }
-    .feedback {
-      margin-top: 10px;
-      font-weight: bold;
-      padding: 5px;
-      border-radius: 5px;
-    }
-    .correcto {
-      background-color: #c8e6c9;
-      color: #2e7d32;
-    }
-    .incorrecto {
-      background-color: #ffcdd2;
-      color: #c62828;
-    }
-    #result {
-      margin-top: 30px;
-      text-align: center;
-      font-size: 20px;
-      font-weight: bold;
-      padding: 15px;
-      border-radius: 10px;
-    }
-  </style>
-</head>
-<body>
-  <h1>Cuestionario: Residuos Peligrosos</h1>
-  <form id="quizForm">
-    
-    <div class="question">
-      <p>1. ¿Cuál de los siguientes NO se considera un residuo peligroso?</p>
-      <label><input type="radio" name="q1" value="d"> Residuos de papel limpio</label><br>
-      <label><input type="radio" name="q1" value="a"> Baterías de automóvil</label><br>
-      <label><input type="radio" name="q1" value="b"> Aceite usado de cocina</label><br>
-      <label><input type="radio" name="q1" value="c"> Pilas alcalinas</label>
-      <div class="feedback" id="fb1"></div>
-    </div>
+  };
 
-    <div class="question">
-      <p>2. Los residuos peligrosos pueden causar daños a la salud humana y al medio ambiente si no se gestionan adecuadamente.</p>
-      <label><input type="radio" name="q2" value="true"> Verdadero</label><br>
-      <label><input type="radio" name="q2" value="false"> Falso</label>
-      <div class="feedback" id="fb2"></div>
-    </div>
-
-    <div class="question">
-      <p>3. ¿Cuál es la característica que define a un residuo como peligroso?</p>
-      <label><input type="radio" name="q3" value="b"> Es inflamable, corrosivo, reactivo o tóxico</label><br>
-      <label><input type="radio" name="q3" value="a"> Es biodegradable</label><br>
-      <label><input type="radio" name="q3" value="c"> Se puede reciclar fácilmente</label><br>
-      <label><input type="radio" name="q3" value="d"> Es orgánico y compostable</label>
-      <div class="feedback" id="fb3"></div>
-    </div>
-
-    <div class="question">
-      <p>4. Menciona dos ejemplos de residuos peligrosos generados en el hogar:</p>
-      <input type="text" name="q4" placeholder="Escribe tu respuesta">
-      <div class="feedback" id="fb4"></div>
-    </div>
-
-    <div class="question">
-      <p>5. Los residuos electrónicos como computadoras y celulares se consideran residuos peligrosos.</p>
-      <label><input type="radio" name="q5" value="true"> Verdadero</label><br>
-      <label><input type="radio" name="q5" value="false"> Falso</label>
-      <div class="feedback" id="fb5"></div>
-    </div>
-
-    <div class="question">
-      <p>6. ¿Cuál de los siguientes métodos es adecuado para la disposición de residuos peligrosos?</p>
-      <label><input type="radio" name="q6" value="b"> Almacenarlos en contenedores adecuados y entregarlos a un gestor autorizado</label><br>
-      <label><input type="radio" name="q6" value="a"> Mezclarlos con residuos domésticos</label><br>
-      <label><input type="radio" name="q6" value="c"> Quemarlos en casa</label><br>
-      <label><input type="radio" name="q6" value="d"> Tirarlos en ríos o áreas verdes</label>
-      <div class="feedback" id="fb6"></div>
-    </div>
-
-    <div class="question">
-      <p>7. Explica por qué es importante separar los residuos peligrosos de los residuos comunes:</p>
-      <input type="text" name="q7" placeholder="Escribe tu respuesta">
-      <div class="feedback" id="fb7"></div>
-    </div>
-
-    <div class="question">
-      <p>8. Los residuos peligrosos generados en hospitales incluyen:</p>
-      <label><input type="checkbox" name="q8" value="a"> Gasas y vendajes contaminados</label><br>
-      <label><input type="checkbox" name="q8" value="b"> Agujas y jeringas usadas</label><br>
-      <label><input type="checkbox" name="q8" value="c"> Medicamentos caducados</label><br>
-      <label><input type="checkbox" name="q8" value="d"> Todos los anteriores</label>
-      <div class="feedback" id="fb8"></div>
-    </div>
-
-    <div class="question">
-      <p>9. La manipulación de residuos peligrosos requiere el uso de equipo de protección personal.</p>
-      <label><input type="radio" name="q9" value="true"> Verdadero</label><br>
-      <label><input type="radio" name="q9" value="false"> Falso</label>
-      <div class="feedback" id="fb9"></div>
-    </div>
-
-    <div class="question">
-      <p>10. Sugiere una acción que las personas pueden realizar para reducir la generación de residuos peligrosos en casa o en el trabajo:</p>
-      <input type="text" name="q10" placeholder="Escribe tu respuesta">
-      <div class="feedback" id="fb10"></div>
-    </div>
-
-    <button type="button" onclick="calcularResultado()">Enviar</button>
-  </form>
-
-  <div id="result"></div>
-
-  <script>
-    function calcularResultado() {
-      let score = 0;
-      const respuestas = {
-        q1: "d",
-        q2: "true",
-        q3: "b",
-        q5: "true",
-        q6: "b",
-        q9: "true",
-        q8: "d"
-      };
-
-      // Preguntas cerradas
-      for (let key in respuestas) {
-        const q = document.querySelector(`input[name="${key}"]:checked`);
-        const fb = document.getElementById("fb" + key.slice(1));
-        if (q && q.value === respuestas[key]) {
-          fb.textContent = "✔ Correcto";
-          fb.className = "feedback correcto";
-          score++;
-        } else {
-          fb.textContent = "✘ Incorrecto";
-          fb.className = "feedback incorrecto";
-        }
+  const handleSubmit = () => {
+    let correctCount = 0;
+    questions.forEach(q => {
+      if (answers[q.id] === q.correct) {
+        correctCount++;
       }
+    });
+    setScore(correctCount);
+    setSubmitted(true);
+  };
 
-      // Preguntas abiertas con palabras clave
-      const q4 = document.querySelector('input[name="q4"]').value.toLowerCase();
-      const q7 = document.querySelector('input[name="q7"]').value.toLowerCase();
-      const q10 = document.querySelector('input[name="q10"]').value.toLowerCase();
+  const handleReset = () => {
+    setAnswers({});
+    setSubmitted(false);
+    setScore(0);
+  };
 
-      const fb4 = document.getElementById("fb4");
-      const fb7 = document.getElementById("fb7");
-      const fb10 = document.getElementById("fb10");
+  const getQuestionStatus = (question) => {
+    if (!submitted) return null;
+    if (answers[question.id] === undefined) return 'unanswered';
+    return answers[question.id] === question.correct ? 'correct' : 'incorrect';
+  };
 
-      if (q4.includes("pila") || q4.includes("batería") || q4.includes("medicamento") || q4.includes("aceite")) {
-        fb4.textContent = "✔ Correcto (ejemplo válido)";
-        fb4.className = "feedback correcto";
-        score++;
-      } else {
-        fb4.textContent = "✘ Revisa ejemplos como pilas, aceites, medicamentos caducados";
-        fb4.className = "feedback incorrecto";
-      }
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-6">
+      <div className="max-w-3xl mx-auto">
+        <div className="bg-white rounded-lg shadow-lg p-8 mb-6">
+          <h1 className="text-3xl font-bold text-green-700 mb-2">
+            Cuestionario: Residuos Peligrosos
+          </h1>
+          <p className="text-gray-600 mb-6">
+            Responde las siguientes preguntas sobre residuos peligrosos y su gestión adecuada.
+          </p>
+          
+          {submitted && (
+            <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+              <div className="flex items-center">
+                <AlertCircle className="text-blue-500 mr-3" size={24} />
+                <div>
+                  <p className="font-bold text-lg">
+                    Puntuación: {score} de {questions.length}
+                  </p>
+                  <p className="text-gray-700">
+                    {score === questions.length
+                      ? '¡Excelente! Respuestas correctas.'
+                      : `Has respondido correctamente ${score} pregunta${score !== 1 ? 's' : ''}.`}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
 
-      if (q7.includes("salud") || q7.includes("ambiente") || q7.includes("contaminación") || q7.includes("riesgo")) {
-        fb7.textContent = "✔ Correcto";
-        fb7.className = "feedback correcto";
-        score++;
-      } else {
-        fb7.textContent = "✘ Menciona relación con salud o ambiente";
-        fb7.className = "feedback incorrecto";
-      }
+        {questions.map((question, index) => {
+          const status = getQuestionStatus(question);
+          return (
+            <div
+              key={question.id}
+              className={`bg-white rounded-lg shadow-md p-6 mb-4 transition-all ${
+                status === 'correct'
+                  ? 'border-2 border-green-500'
+                  : status === 'incorrect'
+                  ? 'border-2 border-red-500'
+                  : 'border border-gray-200'
+              }`}
+            >
+              <div className="flex items-start mb-4">
+                <span className="bg-green-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3 flex-shrink-0">
+                  {index + 1}
+                </span>
+                <h3 className="text-lg font-semibold text-gray-800 flex-1">
+                  {question.question}
+                </h3>
+                {submitted && status === 'correct' && (
+                  <CheckCircle className="text-green-500 ml-2" size={24} />
+                )}
+                {submitted && status === 'incorrect' && (
+                  <XCircle className="text-red-500 ml-2" size={24} />
+                )}
+              </div>
 
-      if (q10.includes("reducir") || q10.includes("reciclar") || q10.includes("separar") || q10.includes("entregar")) {
-        fb10.textContent = "✔ Correcto";
-        fb10.className = "feedback correcto";
-        score++;
-      } else {
-        fb10.textContent = "✘ Ejemplos: separar pilas, entregar a gestores, reducir químicos";
-        fb10.className = "feedback incorrecto";
-      }
+              <div className="space-y-2 ml-11">
+                {question.options.map((option, optionIndex) => {
+                  const isSelected = answers[question.id] === optionIndex;
+                  const isCorrect = question.correct === optionIndex;
+                  const showCorrect = submitted && isCorrect;
+                  const showIncorrect = submitted && isSelected && !isCorrect;
 
-      // Resultado final
-      let mensaje = `Tu puntaje es: ${score}/10. `;
-      if (score === 10) mensaje += "🌟 ¡Excelente dominio del tema!";
-      else if (score >= 7) mensaje += "👍 Muy bien, tienes buen conocimiento.";
-      else if (score >= 5) mensaje += "⚠️ Aceptable, pero puedes mejorar.";
-      else mensaje += "❌ Necesitas reforzar mucho más el tema.";
+                  return (
+                    <button
+                      key={optionIndex}
+                      onClick={() => handleAnswer(question.id, optionIndex)}
+                      disabled={submitted}
+                      className={`w-full text-left p-3 rounded-lg border-2 transition-all ${
+                        showCorrect
+                          ? 'bg-green-100 border-green-500'
+                          : showIncorrect
+                          ? 'bg-red-100 border-red-500'
+                          : isSelected
+                          ? 'bg-blue-100 border-blue-500'
+                          : 'bg-gray-50 border-gray-300 hover:bg-gray-100'
+                      } ${submitted ? 'cursor-default' : 'cursor-pointer'}`}
+                    >
+                      <div className="flex items-center">
+                        <span className="font-medium mr-2">
+                          {String.fromCharCode(97 + optionIndex)})
+                        </span>
+                        <span>{option}</span>
+                        {showCorrect && (
+                          <CheckCircle className="ml-auto text-green-600" size={20} />
+                        )}
+                        {showIncorrect && (
+                          <XCircle className="ml-auto text-red-600" size={20} />
+                        )}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
 
-      document.getElementById("result").textContent = mensaje;
-      document.getElementById("result").style.backgroundColor = score >= 7 ? "#c8e6c9" : "#ffcdd2";
-    }
-  </script>
-</body>
-</html>
+              {submitted && status === 'unanswered' && (
+                <p className="text-orange-600 text-sm mt-3 ml-11">
+                  No respondiste esta pregunta
+                </p>
+              )}
+            </div>
+          );
+        })}
+
+        <div className="bg-white rounded-lg shadow-md p-6 flex gap-4 justify-center">
+          {!submitted ? (
+            <button
+              onClick={handleSubmit}
+              disabled={Object.keys(answers).length === 0}
+              className={`px-8 py-3 rounded-lg font-semibold text-white transition-all ${
+                Object.keys(answers).length === 0
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : 'bg-green-600 hover:bg-green-700 shadow-lg hover:shadow-xl'
+              }`}
+            >
+              Enviar Respuestas
+            </button>
+          ) : (
+            <button
+              onClick={handleReset}
+              className="px-8 py-3 rounded-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-xl transition-all"
+            >
+              Reiniciar Cuestionario
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
